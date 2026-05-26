@@ -1,0 +1,59 @@
+# CI for the Diablo16-Serial-Arduino-Library.
+#
+# Compiles the library standalone against each bundled example sketch using
+# `pio ci`, pinned to platform atmelavr / board megaatmega2560. This proves the
+# library builds on its own.
+#
+# WARNINGS: not treated as errors yet. The source still emits macro-redefinition
+# noise (PA0..PA7, TIMER2, PINK), so `-Werror` would fail immediately. Once the
+# source-cleanup task lands, turn warnings into errors by switching
+# PLATFORMIO_BUILD_FLAGS below to "-Wall -Werror".
+#
+# `-Wno-narrowing` is REQUIRED right now, not just cosmetic: BigDemo.h declares
+# its image table as `const char Image[2054]` but fills it with values like
+# 0xFF, which is a narrowing conversion into signed char and an outright compile
+# *error* under the current C++ standard (not merely a warning). Suppressing it
+# is what lets BigDemo build at all. The real fix belongs to the source-cleanup
+# task (retype that table to `uint8_t`); once that lands, drop this flag.
+
+name: build
+
+on:
+  push:
+  pull_request:
+
+env:
+  # Target board for the standalone build.
+  PIO_BOARD: megaatmega2560
+  # Baseline: tolerate existing warnings, but suppress the narrowing error so the
+  # library builds. After the source-cleanup task lands, change this to
+  # "-Wall -Werror" (see the WARNINGS note at the top of this file).
+  PLATFORMIO_BUILD_FLAGS: "-Wno-narrowing"
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        example:
+          - examples/BigDemo
+          - examples/Display_print
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # Cache PlatformIO's downloaded AVR toolchain/packages between runs.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: pio-${{ env.PIO_BOARD }}
+      - name: Install PlatformIO
+        run: |
+          pip install --quiet --upgrade platformio
+          pio --version
+      - name: Compile ${{ matrix.example }}
+        # `pio ci` treats this repo as the library under test (--lib=".") and
+        # compiles the example sketch against it on the pinned board.
+        run: pio ci "${{ matrix.example }}" --lib="." --board="$PIO_BOARD"
