@@ -1,0 +1,60 @@
+# CI for the Diablo16-Serial-Arduino-Library.
+#
+# Compiles the library standalone against each bundled example sketch using
+# `pio ci`, pinned to platform atmelavr / board megaatmega2560. This proves the
+# library builds on its own.
+#
+# WARNINGS: not treated as errors yet. The source still emits macro-redefinition
+# noise (PA0..PA7, TIMER2, PINK), so `-Werror` would fail immediately. Once the
+# source-cleanup task lands, turn warnings into errors by switching
+# PLATFORMIO_BUILD_FLAGS below to "-Wall -Werror".
+#
+# `-Wno-narrowing` is REQUIRED right now, not just cosmetic: BigDemo.h declares
+# its image table as `const char Image[2054]` but fills it with values like
+# 0xFF, which is a narrowing conversion into signed char and an outright compile
+# *error* under the current C++ standard (not merely a warning). Suppressing it
+# is what lets BigDemo build at all. The real fix belongs to the source-cleanup
+# task (retype that table to `uint8_t`); once that lands, drop this flag.
+
+stages:
+  - build
+
+variables:
+  # Target board for the standalone build.
+  PIO_BOARD: megaatmega2560
+  # Keep PlatformIO's downloaded toolchain/packages inside the project so GitLab
+  # CI caching can persist them between runs.
+  PLATFORMIO_CORE_DIR: "$CI_PROJECT_DIR/.platformio"
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.pip-cache"
+  # Baseline: tolerate existing warnings, but suppress the narrowing error so the
+  # library builds. After the source-cleanup task lands, change this to
+  # "-Wall -Werror" (see the WARNINGS note at the top of this file).
+  PLATFORMIO_BUILD_FLAGS: "-Wno-narrowing"
+
+default:
+  image: python:3.12
+  cache:
+    key: "pio-$PIO_BOARD"
+    paths:
+      - .platformio/
+      - .pip-cache/
+  before_script:
+    - pip install --quiet --upgrade platformio
+    - pio --version
+
+.compile:
+  stage: build
+  script:
+    # `pio ci` treats this repo as the library under test (--lib=".") and
+    # compiles the example sketch against it on the pinned board.
+    - pio ci "$EXAMPLE_DIR" --lib="." --board="$PIO_BOARD"
+
+compile:BigDemo:
+  extends: .compile
+  variables:
+    EXAMPLE_DIR: examples/BigDemo
+
+compile:Display_print:
+  extends: .compile
+  variables:
+    EXAMPLE_DIR: examples/Display_print
