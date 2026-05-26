@@ -150,8 +150,8 @@ int RAWPartitionbase(unsigned long * rawbaseo)
           FAT = true ;
         if (sector[466] == 0xDA)
         {
-          *rawbaseo = (unsigned)sector[470] + (unsigned)(sector[471] << 8) + (unsigned)(sector[472]  << 16) + (unsigned)(sector[473]  << 24) ;
-          rawsize   = (unsigned)sector[474] + (unsigned)(sector[475] << 8) + (unsigned)(sector[476]  << 16) + (unsigned)(sector[477]  << 24) ;
+          *rawbaseo = (unsigned long)sector[470] + ((unsigned long)sector[471] << 8) + ((unsigned long)sector[472] << 16) + ((unsigned long)sector[473] << 24) ;
+          rawsize   = (unsigned long)sector[474] + ((unsigned long)sector[475] << 8) + ((unsigned long)sector[476] << 16) + ((unsigned long)sector[477] << 24) ;
           result    = true ;
           RAW       = true ;
         }
@@ -167,6 +167,7 @@ int RAWPartitionbase(unsigned long * rawbaseo)
     else
       RAW = true ; // but no really possible as we couldn't have gotten this far in this sketch
   }
+  (void)FAT ; (void)RAW ; (void)rawsize ;   // detected above for illustration; this demo only returns `result`
 return result ;
 }
 
@@ -492,10 +493,10 @@ void FAT_Tests(void)
     HWLOGGING.print(bytes[j], HEX) ;
   i = Display.file_Tell(handle, &w1, &w2) ;
   HWLOGGING.print(F("\nFile pointer= ")) ;
-  HWLOGGING.println((w1 << 16) + w2) ;
+  HWLOGGING.println(((unsigned long)w1 << 16) + w2) ;
   i = Display.file_Size(handle, &w1, &w2) ;
   HWLOGGING.print(F("File size=")) ;
-  HWLOGGING.println((w1 << 16) + w2) ;
+  HWLOGGING.println(((unsigned long)w1 << 16) + w2) ;
   
   Display.file_Close(handle) ;
   Display.file_Erase(testdat) ;
@@ -516,7 +517,7 @@ void FAT_Tests(void)
   }
   Display.file_Close(handle) ;
   handle = Display.file_Open(testdat, 'r') ;
-  Display.file_Index(handle, sizeof(data) >> 16, sizeof(data) & 0xFFFF, 5) ;
+  Display.file_Index(handle, (unsigned long)sizeof(data) >> 16, sizeof(data) & 0xFFFF, 5) ;
   i = Display.file_Read((char *)&data, sizeof(data), handle) ;
   HWLOGGING.print(data.recnum) ;
   HWLOGGING.print(data.values[0]) ;
@@ -674,7 +675,7 @@ void Media_Tests(void)
   if (i == 0)
   {
     HWLOGGING.print(F("Please insert the uSD card")) ;
-    while (i = 0)
+    while (i == 0)
     {
       HWLOGGING.print(F(".")) ;
       i = Display.media_Init() ;
@@ -781,7 +782,7 @@ void Touch_Tests(void)
   int firsty ;
   int x ;
   int y ;
-  int state ;
+  int state = Diablo::Touch::Pressed ;   // seed != Released so the draw loop runs at least once
   Display.gfx_Cls() ;
   Display.putstr("Touch Tests\n") ;
   HWLOGGING.println(F("Touch Tests.")) ;
@@ -873,7 +874,7 @@ void setup()
 
 void loop()
 {
-  int i, rc ;
+  int i ;
   char wks[20] ;
   DisplaySerial.begin(9600) ;
   Display.TimeLimit4D   = 5000 ; // 5 second timeout on all commands

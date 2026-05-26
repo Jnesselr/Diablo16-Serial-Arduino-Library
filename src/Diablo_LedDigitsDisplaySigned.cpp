@@ -19,7 +19,7 @@ void LedDigitsDisplaySigned(Diablo_Serial_4DLib Display, word hndl, int16_t newv
   for (i = Digits; i > 0; i--)
   {
     m = nv % 10 ;
-    if ( LeadingBlanks && (i <= Digits - MinDigits) )
+    if ( LeadingBlanks && (i <= (int)Digits - (int)MinDigits) )
     {
       if (nv == 0)
       {

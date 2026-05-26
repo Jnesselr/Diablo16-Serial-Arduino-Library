@@ -190,7 +190,7 @@ Diablo_Serial_4DLib::Diablo_Serial_4DLib(AltSoftSerial * serial) {
 //**********************************Intrinsic 4D Routines**************************************//
 //*********************************************************************************************//
 
-void Diablo_Serial_4DLib::WriteChars(char * charsout)
+void Diablo_Serial_4DLib::WriteChars(const char * charsout)
 {
   unsigned char wk ;
   do
@@ -225,7 +225,6 @@ void Diablo_Serial_4DLib::WriteWords(word * Source, int Size)
 
 void Diablo_Serial_4DLib::getbytes(char * data, int size)
 {
-  int read ;
   unsigned long sttime ;
   int readc ;
   readc  = 0 ;
@@ -307,7 +306,6 @@ word Diablo_Serial_4DLib::GetWord(void)
 
 void Diablo_Serial_4DLib::getString(char * outStr, int strLen)
 {
-  unsigned char readx[2] ;
   int readc ;
   unsigned long sttime ;
   
@@ -430,7 +428,7 @@ word Diablo_Serial_4DLib::file_Close(word  Handle)
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_Count(char *  Filename)
+word Diablo_Serial_4DLib::file_Count(const char *  Filename)
 {
   _virtualPort->print((char)(F_file_Count >> 8));
   _virtualPort->print((char)(F_file_Count));
@@ -438,7 +436,7 @@ word Diablo_Serial_4DLib::file_Count(char *  Filename)
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_Dir(char *  Filename)
+word Diablo_Serial_4DLib::file_Dir(const char *  Filename)
 {
   _virtualPort->print((char)(F_file_Dir >> 8));
   _virtualPort->print((char)(F_file_Dir));
@@ -446,7 +444,7 @@ word Diablo_Serial_4DLib::file_Dir(char *  Filename)
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_Erase(char *  Filename)
+word Diablo_Serial_4DLib::file_Erase(const char *  Filename)
 {
   _virtualPort->print((char)(F_file_Erase >> 8));
   _virtualPort->print((char)(F_file_Erase));
@@ -461,7 +459,7 @@ word Diablo_Serial_4DLib::file_Error()
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_Exec(char *  Filename, word  ArgCount, t4DWordArray  Args)
+word Diablo_Serial_4DLib::file_Exec(const char *  Filename, word  ArgCount, t4DWordArray  Args)
 {
   _virtualPort->print((char)(F_file_Exec >> 8));
   _virtualPort->print((char)(F_file_Exec));
@@ -472,7 +470,7 @@ word Diablo_Serial_4DLib::file_Exec(char *  Filename, word  ArgCount, t4DWordArr
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_Exists(char *  Filename)
+word Diablo_Serial_4DLib::file_Exists(const char *  Filename)
 {
   _virtualPort->print((char)(F_file_Exists >> 8));
   _virtualPort->print((char)(F_file_Exists));
@@ -480,7 +478,7 @@ word Diablo_Serial_4DLib::file_Exists(char *  Filename)
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_FindFirst(char *  Filename)
+word Diablo_Serial_4DLib::file_FindFirst(const char *  Filename)
 {
   _virtualPort->print((char)(F_file_FindFirst >> 8));
   _virtualPort->print((char)(F_file_FindFirst));
@@ -552,7 +550,7 @@ word Diablo_Serial_4DLib::file_Index(word  Handle, word  HiSize, word  LoSize, w
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_LoadFunction(char *  Filename)
+word Diablo_Serial_4DLib::file_LoadFunction(const char *  Filename)
 {
   _virtualPort->print((char)(F_file_LoadFunction >> 8));
   _virtualPort->print((char)(F_file_LoadFunction));
@@ -560,7 +558,7 @@ word Diablo_Serial_4DLib::file_LoadFunction(char *  Filename)
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_LoadImageControl(char *  Datname, char *  GCIName, word  Mode)
+word Diablo_Serial_4DLib::file_LoadImageControl(const char *  Datname, const char *  GCIName, word  Mode)
 {
   _virtualPort->print((char)(F_file_LoadImageControl >> 8));
   _virtualPort->print((char)(F_file_LoadImageControl));
@@ -578,7 +576,7 @@ word Diablo_Serial_4DLib::file_Mount()
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_Open(char *  Filename, char  Mode)
+word Diablo_Serial_4DLib::file_Open(const char *  Filename, char  Mode)
 {
   _virtualPort->print((char)(F_file_Open >> 8));
   _virtualPort->print((char)(F_file_Open));
@@ -587,7 +585,7 @@ word Diablo_Serial_4DLib::file_Open(char *  Filename, char  Mode)
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_PlayWAV(char *  Filename)
+word Diablo_Serial_4DLib::file_PlayWAV(const char *  Filename)
 {
   _virtualPort->print((char)(F_file_PlayWAV >> 8));
   _virtualPort->print((char)(F_file_PlayWAV));
@@ -605,7 +603,7 @@ word Diablo_Serial_4DLib::file_PutC(char  Character, word  Handle)
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_PutS(char *  StringOut, word  Handle)
+word Diablo_Serial_4DLib::file_PutS(const char *  StringOut, word  Handle)
 {
   _virtualPort->print((char)(F_file_PutS >> 8));
   _virtualPort->print((char)(F_file_PutS));
@@ -646,7 +644,7 @@ word Diablo_Serial_4DLib::file_Rewind(word  Handle)
   return GetAckResp();
 }
 
-word Diablo_Serial_4DLib::file_Run(char *  Filename, word  ArgCount, t4DWordArray  Args)
+word Diablo_Serial_4DLib::file_Run(const char *  Filename, word  ArgCount, t4DWordArray  Args)
 {
   _virtualPort->print((char)(F_file_Run >> 8));
   _virtualPort->print((char)(F_file_Run));
@@ -751,7 +749,7 @@ word Diablo_Serial_4DLib::gfx_BGcolour(word  Color)
   return GetAckResp();
 }
 
-void Diablo_Serial_4DLib::gfx_Button(word  Up, word  x, word  y, word  buttonColour, word  txtColour, word  font, word  txtWidth, word  txtHeight, char *   text)
+void Diablo_Serial_4DLib::gfx_Button(word  Up, word  x, word  y, word  buttonColour, word  txtColour, word  font, word  txtWidth, word  txtHeight, const char *   text)
 {
   _virtualPort->print((char)(F_gfx_Button >> 8));
   _virtualPort->print((char)(F_gfx_Button));
@@ -1558,7 +1556,7 @@ void Diablo_Serial_4DLib::putCH(word  WordChar)
   GetAck() ;
 }
 
-word Diablo_Serial_4DLib::putstr(char *  InString)
+word Diablo_Serial_4DLib::putstr(const char *  InString)
 {
   _virtualPort->print((char)(F_putstr >> 8));
   _virtualPort->print((char)(F_putstr));
@@ -1572,7 +1570,6 @@ word Diablo_Serial_4DLib::putstr(char *  InString)
 void Diablo_Serial_4DLib::print(const __FlashStringHelper *ifsh)
 {
   PGM_P p = reinterpret_cast<PGM_P>(ifsh);
-  size_t n = 0;
   while (1) {
     unsigned char c = pgm_read_byte(p++);
     if (c == 0) break;
@@ -1749,10 +1746,9 @@ void Diablo_Serial_4DLib::printNumber(unsigned long n, uint8_t base) {
   }
 }
 
-void Diablo_Serial_4DLib::printFloat(double number, uint8_t digits) 
-{ 
-  size_t n = 0;
-  if (isnan(number)) print("nan"); 
+void Diablo_Serial_4DLib::printFloat(double number, uint8_t digits)
+{
+  if (isnan(number)) print("nan");
   else if (isinf(number)) print("inf"); 
   else if (number > 4294967040.0) print ("ovf");  // constant determined empirically
   else if (number <-4294967040.0) print ("ovf");  // constant determined empirically
@@ -2074,7 +2070,7 @@ word Diablo_Serial_4DLib::sys_GetPmmC()
   return GetAckResp() ;
 }
 
-word Diablo_Serial_4DLib::writeString(word  Handle, char *  StringOut)
+word Diablo_Serial_4DLib::writeString(word  Handle, const char *  StringOut)
 {
   _virtualPort->print((char)(F_writeString >> 8)) ;
   _virtualPort->print((char)(F_writeString)) ;
@@ -2109,7 +2105,7 @@ void Diablo_Serial_4DLib::blitComtoDisplay(word  X, word  Y, word  Width, word  
   GetAck() ;
 }
 
-word Diablo_Serial_4DLib::file_FindFirstRet(char *  Filename, char *  StringIn)
+word Diablo_Serial_4DLib::file_FindFirstRet(const char *  Filename, char *  StringIn)
 {
   _virtualPort->print((char)(F_file_FindFirstRet >> 8)) ;
   _virtualPort->print((char)(F_file_FindFirstRet)) ;

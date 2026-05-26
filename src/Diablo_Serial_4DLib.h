@@ -42,30 +42,30 @@ class Diablo_Serial_4DLib
 		word charheight(char  TestChar);
 		word charwidth(char  TestChar);
 		word file_Close(word  Handle);
-		word file_Count(char *  Filename);
-		word file_Dir(char *  Filename);
-		word file_Erase(char *  Filename);
+		word file_Count(const char *  Filename);
+		word file_Dir(const char *  Filename);
+		word file_Erase(const char *  Filename);
 		word file_Error();
-		word file_Exec(char *  Filename, word  ArgCount, t4DWordArray  Args);
-		word file_Exists(char *  Filename);
-		word file_FindFirst(char *  Filename);
+		word file_Exec(const char *  Filename, word  ArgCount, t4DWordArray  Args);
+		word file_Exists(const char *  Filename);
+		word file_FindFirst(const char *  Filename);
 		word file_FindNext();
 		char file_GetC(word  Handle);
 		word file_GetS(char *  StringIn, word  Size, word  Handle);
 		word file_GetW(word  Handle);
 		word file_Image(word  X, word  Y, word  Handle);
 		word file_Index(word  Handle, word  HiSize, word  LoSize, word  Recordnum);
-		word file_LoadFunction(char *  Filename);
-		word file_LoadImageControl(char *  Datname, char *  GCIName, word  Mode);
+		word file_LoadFunction(const char *  Filename);
+		word file_LoadImageControl(const char *  Datname, const char *  GCIName, word  Mode);
 		word file_Mount();
-		word file_Open(char *  Filename, char  Mode);
-		word file_PlayWAV(char *  Filename);
+		word file_Open(const char *  Filename, char  Mode);
+		word file_PlayWAV(const char *  Filename);
 		word file_PutC(char  Character, word  Handle);
-		word file_PutS(char *  StringOut, word  Handle);
+		word file_PutS(const char *  StringOut, word  Handle);
 		word file_PutW(word  Word, word  Handle);
 		word file_Read(t4DByteArray  Data, word  Size, word  Handle);
 		word file_Rewind(word  Handle);
-		word file_Run(char *  Filename, word  ArgCount, t4DWordArray  Args);
+		word file_Run(const char *  Filename, word  ArgCount, t4DWordArray  Args);
 		word file_ScreenCapture(word  X, word  Y, word  Width, word  Height, word  Handle);
 		word file_Seek(word  Handle, word  HiWord, word  LoWord);
 		word file_Size(word  Handle, word *  HiWord, word *  LoWord);
@@ -75,7 +75,7 @@ class Diablo_Serial_4DLib
 		word gfx_BevelShadow(word  Value);
 		word gfx_BevelWidth(word  Value);
 		word gfx_BGcolour(word  Color);
-		void gfx_Button(word  Up, word  x, word  y, word  buttonColour, word  txtColour, word  font, word  txtWidth, word  txtHeight, char *   text);
+		void gfx_Button(word  Up, word  x, word  y, word  buttonColour, word  txtColour, word  font, word  txtWidth, word  txtHeight, const char *   text);
 		void gfx_ChangeColour(word  OldColor, word  NewColor);
 		void gfx_Circle(word  X, word  Y, word  Radius, word  Color);
 		void gfx_CircleFilled(word  X, word  Y, word  Radius, word  Color);
@@ -143,7 +143,7 @@ class Diablo_Serial_4DLib
 		word pin_Set(word Mode, word Pin);
 		void pokeM(word  Address, word  WordValue);
         void putCH(word  WordChar);
-		word putstr(char *  InString);
+		word putstr(const char *  InString);
 		//---------------------print----------------------/
 		
 		void print(const __FlashStringHelper *);
@@ -200,10 +200,10 @@ class Diablo_Serial_4DLib
 		word sys_GetModel(char *  ModelStr);
 		word sys_GetVersion();
 		word sys_GetPmmC();
-		word writeString(word  Handle, char *  StringOut);
+		word writeString(word  Handle, const char *  StringOut);
 		word readString(word  Handle, char *  StringIn);
 		void blitComtoDisplay(word  X, word  Y, word  Width, word  Height, t4DByteArray  Pixels);
-		word file_FindFirstRet(char *  Filename, char *  StringIn);
+		word file_FindFirstRet(const char *  Filename, char *  StringIn);
 		word file_FindNextRet(char *  StringIn);
 		bool setbaudWait(word Newrate);
 		void GetAck(void);
@@ -234,7 +234,7 @@ class Diablo_Serial_4DLib
 #endif
 
 		//Intrinsic 4D Routines
-		void WriteChars(char * charsout);
+		void WriteChars(const char * charsout);
 		void WriteBytes(char * Source, int Size);
 		void WriteWords(word * Source, int Size);
 		void getbytes(char * data, int size);
