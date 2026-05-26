@@ -7,6 +7,9 @@
 #include <Diablo_Const4D.h>
 #include <Diablo_Serial_4DLib.h>
 
+
+// 4DGL constants live in the Diablo namespace; reference them fully qualified
+// (e.g. Diablo::Screen::Portrait) rather than pulling the whole namespace in.
 //use Serial0 to communicate with the display.
 Diablo_Serial_4DLib Display(&DisplaySerial); 
 
@@ -34,7 +37,7 @@ void setup() {
   
   delay (5000); //let the display start up  
 
-  Display.gfx_ScreenMode(PORTRAIT);
+  Display.gfx_ScreenMode(Diablo::Screen::Portrait);
   //Display.gfx_BGcolour(WHITE) ; //change background color to white
   Display.gfx_Cls();            //clear the screen
 

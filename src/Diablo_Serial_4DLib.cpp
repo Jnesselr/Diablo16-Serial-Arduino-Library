@@ -10,6 +10,156 @@
 	#include "WProgram.h" // for Arduino 23
 #endif
 
+// 4DGL serial wire-protocol opcodes (was F_* macros in Diablo_Const4D.h).
+// Implementation detail of this translation unit only.
+namespace {
+constexpr int F_blitComtoDisplay      = 35;
+constexpr int F_bus_Read8             = -122;
+constexpr int F_bus_Write8            = -121;
+constexpr int F_charheight            = 29;
+constexpr int F_charwidth             = 30;
+constexpr int F_file_CallFunction     = 25;
+constexpr int F_file_Close            = -431;
+constexpr int F_file_Count            = 1;
+constexpr int F_file_Dir              = 2;
+constexpr int F_file_Erase            = 3;
+constexpr int F_file_Error            = -424;
+constexpr int F_file_Exec             = 4;
+constexpr int F_file_Exists           = 5;
+constexpr int F_file_FindFirst        = 6;
+constexpr int F_file_FindFirstRet     = 36;
+constexpr int F_file_FindNext         = -428;
+constexpr int F_file_FindNextRet      = 37;
+constexpr int F_file_GetC             = -441;
+constexpr int F_file_GetS             = 7;
+constexpr int F_file_GetW             = -443;
+constexpr int F_file_Image            = -438;
+constexpr int F_file_Index            = -434;
+constexpr int F_file_LoadFunction     = 8;
+constexpr int F_file_LoadImageControl = 9;
+constexpr int F_file_Mount            = -452;
+constexpr int F_file_Open             = 10;
+constexpr int F_file_PlayWAV          = 11;
+constexpr int F_file_PutC             = 31;
+constexpr int F_file_PutS             = 32;
+constexpr int F_file_PutW             = -442;
+constexpr int F_file_Read             = 12;
+constexpr int F_file_Rewind           = -447;
+constexpr int F_file_Run              = 13;
+constexpr int F_file_ScreenCapture    = -439;
+constexpr int F_file_Seek             = -433;
+constexpr int F_file_Size             = 14;
+constexpr int F_file_Tell             = 15;
+constexpr int F_file_Unmount          = -453;
+constexpr int F_file_Write            = 16;
+constexpr int F_gfx_BevelShadow       = -196;
+constexpr int F_gfx_BevelWidth        = -195;
+constexpr int F_gfx_BGcolour          = -184;
+constexpr int F_gfx_Button            = 17;
+constexpr int F_gfx_ChangeColour      = -151;
+constexpr int F_gfx_Circle            = -136;
+constexpr int F_gfx_CircleFilled      = -137;
+constexpr int F_gfx_Clipping          = -186;
+constexpr int F_gfx_ClipWindow        = -150;
+constexpr int F_gfx_Cls               = -126;
+constexpr int F_gfx_Contrast          = -192;
+constexpr int F_gfx_Ellipse           = -153;
+constexpr int F_gfx_EllipseFilled     = -154;
+constexpr int F_gfx_FrameDelay        = -189;
+constexpr int F_gfx_Get               = -182;
+constexpr int F_gfx_GetPixel          = -139;
+constexpr int F_gfx_Line              = -131;
+constexpr int F_gfx_LinePattern       = -193;
+constexpr int F_gfx_LineTo            = -129;
+constexpr int F_gfx_MoveTo            = -127;
+constexpr int F_gfx_Orbit             = 18;
+constexpr int F_gfx_OutlineColour     = -191;
+constexpr int F_gfx_Panel             = -161;
+constexpr int F_gfx_Polygon           = 19;
+constexpr int F_gfx_PolygonFilled     = 20;
+constexpr int F_gfx_Polyline          = 21;
+constexpr int F_gfx_PutPixel          = -138;
+constexpr int F_gfx_Rectangle         = -134;
+constexpr int F_gfx_RectangleFilled   = -135;
+constexpr int F_gfx_ScreenCopyPaste   = -163;
+constexpr int F_gfx_ScreenMode        = -190;
+constexpr int F_gfx_Set               = -125;
+constexpr int F_gfx_SetClipRegion     = -152;
+constexpr int F_gfx_Slider            = -162;
+constexpr int F_gfx_Transparency      = -188;
+constexpr int F_gfx_TransparentColour = -187;
+constexpr int F_gfx_Triangle          = -140;
+constexpr int F_gfx_TriangleFilled    = -167;
+constexpr int F_img_ClearAttributes   = -383;
+constexpr int F_img_Darken            = -377;
+constexpr int F_img_Disable           = -376;
+constexpr int F_img_Enable            = -375;
+constexpr int F_img_GetWord           = -380;
+constexpr int F_img_Lighten           = -378;
+constexpr int F_img_SetAttributes     = -382;
+constexpr int F_img_SetPosition       = -374;
+constexpr int F_img_SetWord           = -379;
+constexpr int F_img_Show              = -381;
+constexpr int F_img_Touched           = -384;
+constexpr int F_media_Flush           = -218;
+constexpr int F_media_Image           = -217;
+constexpr int F_media_Init            = -219;
+constexpr int F_media_RdSector        = 22;
+constexpr int F_media_ReadByte        = -213;
+constexpr int F_media_ReadWord        = -214;
+constexpr int F_media_SetAdd          = -209;
+constexpr int F_media_SetSector       = -210;
+constexpr int F_media_Video           = -207;
+constexpr int F_media_VideoFrame      = -208;
+constexpr int F_media_WriteByte       = -215;
+constexpr int F_media_WriteWord       = -216;
+constexpr int F_media_WrSector        = 23;
+constexpr int F_mem_Free              = -417;
+constexpr int F_mem_Heap              = -418;
+constexpr int F_peekM                 = 39;
+constexpr int F_pin_HI                = -113;
+constexpr int F_pin_LO                = -114;
+constexpr int F_pin_Read              = -116;
+constexpr int F_pin_Set               = -112;
+constexpr int F_pokeM                 = 40;
+constexpr int F_putCH                 = -2;
+constexpr int F_putstr                = 24;
+constexpr int F_readString            = 34;
+constexpr int F_setbaudWait           = 38;
+constexpr int F_snd_BufSize           = -461;
+constexpr int F_snd_Continue          = -464;
+constexpr int F_snd_Pause             = -463;
+constexpr int F_snd_Pitch             = -460;
+constexpr int F_snd_Playing           = -465;
+constexpr int F_snd_Stop              = -462;
+constexpr int F_snd_Volume            = -459;
+constexpr int F_sys_GetModel          = 26;
+constexpr int F_sys_GetPmmC           = 28;
+constexpr int F_sys_GetVersion        = 27;
+constexpr int F_sys_Sleep             = -403;
+constexpr int F_touch_DetectRegion    = -406;
+constexpr int F_touch_Get             = -408;
+constexpr int F_touch_Set             = -407;
+constexpr int F_txt_Attributes        = -31;
+constexpr int F_txt_BGcolour          = -19;
+constexpr int F_txt_Bold              = -27;
+constexpr int F_txt_FGcolour          = -18;
+constexpr int F_txt_FontID            = -20;
+constexpr int F_txt_Height            = -22;
+constexpr int F_txt_Inverse           = -29;
+constexpr int F_txt_Italic            = -28;
+constexpr int F_txt_MoveCursor        = -16;
+constexpr int F_txt_Opacity           = -26;
+constexpr int F_txt_Set               = -17;
+constexpr int F_txt_Underline         = -30;
+constexpr int F_txt_Width             = -21;
+constexpr int F_txt_Wrap              = -32;
+constexpr int F_txt_Xgap              = -23;
+constexpr int F_txt_Ygap              = -24;
+constexpr int F_writeString           = 33;
+}  // anonymous namespace
+
+
 Diablo_Serial_4DLib::Diablo_Serial_4DLib(Stream * virtualPort, void (*setBaudRateHndl)(unsigned long)) { 
   _virtualPort = virtualPort; 
   setBaudRateExternal = setBaudRateHndl;
@@ -89,7 +239,7 @@ void Diablo_Serial_4DLib::getbytes(char * data, int size)
   }
   if (readc != size)
   {
-    Error4D = Err4D_Timeout ;
+    Error4D = Diablo::Err4D::Timeout ;
     if (Callback4D != NULL)
       Callback4D(Error4D, Error4D_Inv) ;
   }
@@ -100,7 +250,7 @@ void Diablo_Serial_4DLib::GetAck(void)
   int read ;
   unsigned char readx ;
   unsigned long sttime ;
-  Error4D = Err4D_OK ;
+  Error4D = Diablo::Err4D::Ok ;
   sttime  = millis();
   read    = 0 ;
   while ((read != 1) && (millis() - sttime < TimeLimit4D))
@@ -113,13 +263,13 @@ void Diablo_Serial_4DLib::GetAck(void)
   }
   if (read == 0)
   {
-    Error4D = Err4D_Timeout ;
+    Error4D = Diablo::Err4D::Timeout ;
     if (Callback4D != NULL)
       Callback4D(Error4D, Error4D_Inv) ;
   }
   else if (readx != 6)
   {
-    Error4D     = Err4D_NAK ;
+    Error4D     = Diablo::Err4D::Nak ;
     Error4D_Inv = readx ;
     if (Callback4D != NULL)
       Callback4D(Error4D, Error4D_Inv) ;
@@ -132,7 +282,7 @@ word Diablo_Serial_4DLib::GetWord(void)
   int readc ;
   unsigned long sttime ;
   
-  if (Error4D != Err4D_OK)
+  if (Error4D != Diablo::Err4D::Ok)
     return 0 ;
   sttime   = millis();
   readc    = 0 ;
@@ -146,7 +296,7 @@ word Diablo_Serial_4DLib::GetWord(void)
   
   if (readc != 2)
   {
-    Error4D  = Err4D_Timeout ;
+    Error4D  = Diablo::Err4D::Timeout ;
     if (Callback4D != NULL)
       Callback4D(Error4D, Error4D_Inv) ;
   return 0 ;
@@ -161,7 +311,7 @@ void Diablo_Serial_4DLib::getString(char * outStr, int strLen)
   int readc ;
   unsigned long sttime ;
   
-  if (Error4D != Err4D_OK)
+  if (Error4D != Diablo::Err4D::Ok)
   {
     outStr[0] = 0 ;
     return ;
@@ -178,7 +328,7 @@ void Diablo_Serial_4DLib::getString(char * outStr, int strLen)
   
   if (readc != strLen)
   {
-    Error4D  = Err4D_Timeout ;
+    Error4D  = Diablo::Err4D::Timeout ;
     if (Callback4D != NULL)
       Callback4D(Error4D, Error4D_Inv) ;
   }
@@ -1979,64 +2129,64 @@ unsigned long Diablo_Serial_4DLib::GetBaudRate(word Newrate)
   unsigned long br ;
   switch(Newrate)
   {
-    case BAUD_110:
+    case Diablo::Baud::Bps110:
       br = 110l ;
       break ;
-    case BAUD_300:
+    case Diablo::Baud::Bps300:
       br = 300l ;
       break ;
-    case BAUD_600:
+    case Diablo::Baud::Bps600:
       br = 600l ;
       break ;
-    case BAUD_1200:
+    case Diablo::Baud::Bps1200:
       br = 1200l ;
       break ;
-    case BAUD_2400:
+    case Diablo::Baud::Bps2400:
       br = 2400l ;
       break ;
-    case BAUD_4800:
+    case Diablo::Baud::Bps4800:
       br = 4800l ;
       break ;
-    case BAUD_9600:
+    case Diablo::Baud::Bps9600:
       br = 9600l ;
       break ;
-    case BAUD_14400:
+    case Diablo::Baud::Bps14400:
       br = 14400l ;
      break ;
-    case BAUD_19200:
+    case Diablo::Baud::Bps19200:
       br = 19200l ;
       break ;
-    case BAUD_31250:
+    case Diablo::Baud::Bps31250:
       br = 31250l ;
       break ;
-    case BAUD_38400:
+    case Diablo::Baud::Bps38400:
       br = 38400l ;
       break ;
-    case BAUD_56000:
+    case Diablo::Baud::Bps56000:
       br = 56000l ;
       break ;
-    case BAUD_57600:
+    case Diablo::Baud::Bps57600:
       br = 57600l ;
       break ;
-    case BAUD_115200:
+    case Diablo::Baud::Bps115200:
       br = 115200l ;
       break ;
-    case BAUD_128000:
+    case Diablo::Baud::Bps128000:
       br = 133928l ; // actual rate is not 128000 ;
       break ;
-    case BAUD_256000:
+    case Diablo::Baud::Bps256000:
       br = 281250l ; // actual rate is not  256000 ;
       break ;
-    case BAUD_300000:
+    case Diablo::Baud::Bps300000:
       br = 312500l ; // actual rate is not  300000 ;
       break ;
-    case BAUD_375000:
+    case Diablo::Baud::Bps375000:
       br = 401785l ; // actual rate is not  375000 ;
       break ;
-    case BAUD_500000:
+    case Diablo::Baud::Bps500000:
       br = 562500l ; // actual rate is not  500000 ;
       break ;
-    case BAUD_600000:
+    case Diablo::Baud::Bps600000:
       br = 703125l ; // actual rate is not  600000 ;
       break ;
     default:

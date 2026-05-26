@@ -30,8 +30,8 @@ void LedDigitsDisplaySigned(Diablo_Serial_4DLib Display, word hndl, int16_t newv
     }
  
 
-    Display.img_SetWord(hndl, index, IMAGE_INDEX, abs(m));
-    Display.img_SetWord(hndl, index, IMAGE_XPOS, left) ;
+    Display.img_SetWord(hndl, index, Diablo::Image::Index, abs(m));
+    Display.img_SetWord(hndl, index, Diablo::Image::XPos, left) ;
     Display.img_Show(hndl, index);
     nv /= 10 ;
   
@@ -40,8 +40,8 @@ void LedDigitsDisplaySigned(Diablo_Serial_4DLib Display, word hndl, int16_t newv
   if (newval < 0)
   {
     left += lstb * WidthDigit ;
-    Display.img_SetWord(hndl, index, IMAGE_INDEX, 11);
-    Display.img_SetWord(hndl, index, IMAGE_XPOS, left) ;
+    Display.img_SetWord(hndl, index, Diablo::Image::Index, 11);
+    Display.img_SetWord(hndl, index, Diablo::Image::XPos, left) ;
     Display.img_Show(hndl, index);
   }
 

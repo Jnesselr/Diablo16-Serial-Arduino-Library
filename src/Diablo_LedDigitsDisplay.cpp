@@ -27,8 +27,8 @@ void LedDigitsDisplay(Diablo_Serial_4DLib Display, word hndl, word newval, word 
         lb = 0 ;
     }
     l /= 10 ;
-    Display.img_SetWord(hndl, index, IMAGE_INDEX, k);
-    Display.img_SetWord(hndl, index, IMAGE_XPOS, left+i*WidthDigit) ;
+    Display.img_SetWord(hndl, index, Diablo::Image::Index, k);
+    Display.img_SetWord(hndl, index, Diablo::Image::XPos, left+i*WidthDigit) ;
     Display.img_Show(hndl, index);
   }
 }

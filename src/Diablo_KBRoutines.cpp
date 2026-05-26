@@ -105,7 +105,7 @@ void kbDown(Diablo_Serial_4DLib Display, word hndl, int8_t iKB, int8_t * oKB, ui
 
 void setkeystate(Diablo_Serial_4DLib Display, word hndl, int8_t key, int8_t idx)
 {
-  Display.img_SetWord(hndl, key,IMAGE_INDEX, idx);
+  Display.img_SetWord(hndl, key,Diablo::Image::Index, idx);
   Display.img_Show(hndl,key) ;
 }
 

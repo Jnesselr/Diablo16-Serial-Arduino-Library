@@ -60,6 +60,10 @@
 #endif
 
 #include "Diablo_Serial_4DLib.h"
+
+// 4DGL constants live in the Diablo namespace; the example references them
+// fully qualified (e.g. Diablo::Colors::Pink) rather than pulling the whole
+// namespace in, which is the pattern we'd recommend to a user.
 #include "BigDemo.h" 
 #include "Diablo_Const4D.h"
 
@@ -251,54 +255,54 @@ void Function_Tests (void)
 void gfx_Part1(void)
 {
   int i ;
-  Display.gfx_BGcolour(LIGHTGOLD) ;           // to check CLS works with different bg color
+  Display.gfx_BGcolour(Diablo::Colors::LightGold) ;           // to check CLS works with different bg color
   Display.gfx_Cls() ;
-  Display.txt_BGcolour(LIGHTGOLD) ;           // to ensure text goesn look odd
-  Display.txt_FGcolour(RED) ;
+  Display.txt_BGcolour(Diablo::Colors::LightGold) ;           // to ensure text goesn look odd
+  Display.txt_FGcolour(Diablo::Colors::Red) ;
   Display.putstr("Display.gfx_A to Display.gfx_L") ;
   HWLOGGING.println(F("Display.gfx_A to Display.gfx_L")) ;
-  Display.txt_FGcolour(LIME) ;            // reset
+  Display.txt_FGcolour(Diablo::Colors::Lime) ;            // reset
   Display.gfx_BevelShadow(1) ;                // make it really dark
   Display.gfx_BevelWidth(6) ;                 // make the button bigger by increasing the bevel size
   for (i = 1; i <= 10; i++)
   {
-    Display.gfx_Button(ON, 120,50, YELLOW, PURPLE, FONT3, 1, 1, "Test Button") ;
+    Display.gfx_Button(Diablo::On, 120,50, Diablo::Colors::Yellow, Diablo::Colors::Purple, Diablo::Font::Font3, 1, 1, "Test Button") ;
     delay(100) ;
-    Display.gfx_Button(OFF, 120,50, YELLOW, PURPLE, FONT3, 1, 1, "Test Button") ;
+    Display.gfx_Button(Diablo::Off, 120,50, Diablo::Colors::Yellow, Diablo::Colors::Purple, Diablo::Font::Font3, 1, 1, "Test Button") ;
     delay(100) ;
   }
   Display.gfx_BevelShadow(3) ; // back to default
-  Display.gfx_ChangeColour(LIME, WHITE) ;
-  Display.gfx_Circle(30,30,10,BLUE) ;
-  Display.gfx_CircleFilled(130,30,10,BLUE) ;
-  Display.gfx_Rectangle(60,60,100,100,RED) ;  // draw a rectange to show where we are clipping
+  Display.gfx_ChangeColour(Diablo::Colors::Lime, Diablo::Colors::White) ;
+  Display.gfx_Circle(30,30,10,Diablo::Colors::Blue) ;
+  Display.gfx_CircleFilled(130,30,10,Diablo::Colors::Blue) ;
+  Display.gfx_Rectangle(60,60,100,100,Diablo::Colors::Red) ;  // draw a rectange to show where we are clipping
   Display.gfx_ClipWindow(60,60,100,100) ;
-  Display.gfx_Clipping(ON) ;                  // turn clipping on but just use it for text
+  Display.gfx_Clipping(Diablo::On) ;                  // turn clipping on but just use it for text
   Display.gfx_MoveTo(40,80) ;
   Display.putstr("1234567890asdfghjkl") ;     // this is clipped
-  Display.gfx_Clipping(OFF) ;
+  Display.gfx_Clipping(Diablo::Off) ;
   delay(1000) ;
   HWLOGGING.println(F("Display off")) ;
   Display.gfx_Contrast(0) ;
   delay(1000) ;
   Display.gfx_Contrast(15) ;
   HWLOGGING.println(F("Display on")) ;
-  Display.gfx_Ellipse(100,230, 50,30,RED) ;
-  Display.gfx_EllipseFilled(100,300, 50,30,AQUA) ;
+  Display.gfx_Ellipse(100,230, 50,30,Diablo::Colors::Red) ;
+  Display.gfx_EllipseFilled(100,300, 50,30,Diablo::Colors::Aqua) ;
   Display.gfx_FrameDelay(6) ;
   HWLOGGING.print(F("X Res= ")) ;
-  HWLOGGING.print(Display.gfx_Get(X_MAX)+1) ;
+  HWLOGGING.print(Display.gfx_Get(Diablo::Gfx::XMax)+1) ;
   HWLOGGING.print(F(" Y Res= ")) ;
-  HWLOGGING.println(Display.gfx_Get(Y_MAX)+1) ;
+  HWLOGGING.println(Display.gfx_Get(Diablo::Gfx::YMax)+1) ;
   HWLOGGING.print(F("Pixel at 0,30 is ")) ;
   HWLOGGING.println(Display.gfx_GetPixel(0, 30), HEX) ;
-  Display.gfx_Line(0,0,100,200,BLUE) ;
+  Display.gfx_Line(0,0,100,200,Diablo::Colors::Blue) ;
   Display.gfx_LinePattern(0x00aa) ;
-  Display.gfx_Set(OBJECT_COLOUR, WHITE);
+  Display.gfx_Set(Diablo::Gfx::ObjectColour, Diablo::Colors::White);
   Display.gfx_LineTo(239,319) ;
   Display.gfx_LinePattern(0) ;            // reser
-  Display.gfx_BGcolour(BLACK) ;           // reset
-  Display.txt_BGcolour(BLACK) ;           // reset
+  Display.gfx_BGcolour(Diablo::Colors::Black) ;           // reset
+  Display.txt_BGcolour(Diablo::Colors::Black) ;           // reset
 }
 
 void gfx_Part2(void)
@@ -316,7 +320,7 @@ void gfx_Part2(void)
   k = 180 ;
   l = 80 ;
   Display.gfx_MoveTo(k, l);
-  Display.gfx_CircleFilled(k,l,5,BLUE) ;
+  Display.gfx_CircleFilled(k,l,5,Diablo::Colors::Blue) ;
   i = -90;   // 12 o'clock position
   while (i<270)
   {
@@ -324,12 +328,12 @@ void gfx_Part2(void)
     k = 3;
     if ((i % 90) == 0 )
       k = 5;
-    Display.gfx_Circle(orbitx , orbity, k, BLUE);
+    Display.gfx_Circle(orbitx , orbity, k, Diablo::Colors::Blue);
     i += 30;   // each 30 degreees
   }
   
-  Display.gfx_OutlineColour(YELLOW) ;
-  Display.gfx_Panel(PANEL_RAISED,140,0,190,20, LIME) ;
+  Display.gfx_OutlineColour(Diablo::Colors::Yellow) ;
+  Display.gfx_Panel(Diablo::Widget::PanelRaised,140,0,190,20, Diablo::Colors::Lime) ;
   Display.gfx_OutlineColour(0) ;                    // turn outline off
   vx[0] = 36;   vy[0] = 110;
   vx[1] = 36;   vy[1] = 80;
@@ -350,20 +354,20 @@ void gfx_Part2(void)
   vx[16] = 110; vy[16] = 76;
   vx[17] = 119; vy[17] = 70;
   // house
-  Display.gfx_Rectangle(6,50,66,110,RED);             // frame
-  Display.gfx_Triangle(6,50,36,9,66,50,YELLOW);       // roof
-  Display.gfx_Polyline(4, &vx[0], &vy[0], CYAN);            // door
+  Display.gfx_Rectangle(6,50,66,110,Diablo::Colors::Red);             // frame
+  Display.gfx_Triangle(6,50,36,9,66,50,Diablo::Colors::Yellow);       // roof
+  Display.gfx_Polyline(4, &vx[0], &vy[0], Diablo::Colors::Cyan);            // door
   // man
-  Display.gfx_Circle(85, 56, 10, BLUE);               // head
-  Display.gfx_Line(85, 66, 85, 80, BLUE);             // body
-  Display.gfx_Polyline(3, &vx[4], &vy[4], CYAN);      // legs
-  Display.gfx_Polyline(3, &vx[7], &vy[7], BLUE);      // arms
+  Display.gfx_Circle(85, 56, 10, Diablo::Colors::Blue);               // head
+  Display.gfx_Line(85, 66, 85, 80, Diablo::Colors::Blue);             // body
+  Display.gfx_Polyline(3, &vx[4], &vy[4], Diablo::Colors::Cyan);      // legs
+  Display.gfx_Polyline(3, &vx[7], &vy[7], Diablo::Colors::Blue);      // arms
   // woman
-  Display.gfx_Circle(110, 56, 10, PINK);              // head
-  Display.gfx_Polyline(5, &vx[10], &vy[10], BROWN);   // dress
-  Display.gfx_Line(104, 104, 106, 90, PINK);          // left arm
-  Display.gfx_Line(112, 90, 116, 104, PINK);          // right arm
-  Display.gfx_Polyline(3, &vx[15], &vy[15], SALMON);  // dress
+  Display.gfx_Circle(110, 56, 10, Diablo::Colors::Pink);              // head
+  Display.gfx_Polyline(5, &vx[10], &vy[10], Diablo::Colors::Brown);   // dress
+  Display.gfx_Line(104, 104, 106, 90, Diablo::Colors::Pink);          // left arm
+  Display.gfx_Line(112, 90, 116, 104, Diablo::Colors::Pink);          // right arm
+  Display.gfx_Polyline(3, &vx[15], &vy[15], Diablo::Colors::Salmon);  // dress
   
   vx[0] = 10; vy[0] = 130;
   vx[1] = 35; vy[1] = 125;
@@ -372,7 +376,7 @@ void gfx_Part2(void)
   vx[4] = 80; vy[4] = 160;
   vx[5] = 35; vy[5] = 170;
   vx[6] = 10; vy[6] = 160;
-  Display.gfx_Polygon(7, vx, vy, RED);
+  Display.gfx_Polygon(7, vx, vy, Diablo::Colors::Red);
   
   vx[0] = 110; vy[0] = 130;
   vx[1] = 135; vy[1] = 125;
@@ -381,21 +385,21 @@ void gfx_Part2(void)
   vx[4] = 180; vy[4] = 160;
   vx[5] = 135; vy[5] = 170;
   vx[6] = 110; vy[6] = 160;
-  Display.gfx_PolygonFilled(7, vx, vy, RED);
+  Display.gfx_PolygonFilled(7, vx, vy, Diablo::Colors::Red);
   
-  Display.gfx_PutPixel(40, 94, LIME) ;          // door knob
-  Display.gfx_Rectangle(0,180, 10,200, AQUA) ;
-  Display.gfx_RectangleFilled(20,180, 40,200, ORANGE) ;
+  Display.gfx_PutPixel(40, 94, Diablo::Colors::Lime) ;          // door knob
+  Display.gfx_Rectangle(0,180, 10,200, Diablo::Colors::Aqua) ;
+  Display.gfx_RectangleFilled(20,180, 40,200, Diablo::Colors::Orange) ;
   Display.gfx_ScreenCopyPaste(0,0, 0,280, 40,40) ;
-  Display.gfx_ScreenMode(LANDSCAPE) ;
+  Display.gfx_ScreenMode(Diablo::Screen::Landscape) ;
   //Display.gfx_Set(CLIPPING, ON) ;
   //Display.gfx_SetClipRegion() ;
-  Display.gfx_Slider(SLIDER_RAISED, 210, 100, 250,10, BLUE, 100, 50) ; // coordinates are different because we are in landscape mode
-  Display.gfx_ScreenMode(PORTRAIT) ;
-  Display.gfx_Transparency(ON) ;
-  Display.gfx_TransparentColour(YELLOW) ;  // how do we 'test' this?
-  Display.gfx_Triangle(6,250, 36,209, 66,250,YELLOW);
-  Display.gfx_TriangleFilled(110,210, 130,210, 120,230,CYAN);
+  Display.gfx_Slider(Diablo::Widget::SliderRaised, 210, 100, 250,10, Diablo::Colors::Blue, 100, 50) ; // coordinates are different because we are in landscape mode
+  Display.gfx_ScreenMode(Diablo::Screen::Portrait) ;
+  Display.gfx_Transparency(Diablo::On) ;
+  Display.gfx_TransparentColour(Diablo::Colors::Yellow) ;  // how do we 'test' this?
+  Display.gfx_Triangle(6,250, 36,209, 66,250,Diablo::Colors::Yellow);
+  Display.gfx_TriangleFilled(110,210, 130,210, 120,230,Diablo::Colors::Cyan);
 }
 
 void text_Tests(void)
@@ -404,24 +408,24 @@ void text_Tests(void)
   HWLOGGING.println(F("Text Tests")) ;
   Display.putstr("Text Tests") ;
   
-  Display.txt_Attributes(BOLD + INVERSE + ITALIC + UNDERLINED) ;
+  Display.txt_Attributes(Diablo::Text::Attribute::Bold + Diablo::Text::Attribute::Inverse + Diablo::Text::Attribute::Italic + Diablo::Text::Attribute::Underlined) ;
   Display.txt_Xgap(3) ;
   Display.txt_Ygap(3) ;
-  Display.txt_BGcolour(YELLOW) ;
-  Display.txt_FGcolour(WHITE) ;
-  Display.txt_FontID(FONT3) ;
+  Display.txt_BGcolour(Diablo::Colors::Yellow) ;
+  Display.txt_FGcolour(Diablo::Colors::White) ;
+  Display.txt_FontID(Diablo::Font::Font3) ;
   Display.txt_MoveCursor(5, 0) ;
   Display.putstr("Hello There") ;
   
   Display.txt_MoveCursor(6, 2) ;
   Display.txt_Height(2) ;
   Display.txt_Width(2) ;
-  Display.txt_Inverse(OFF) ;
-  Display.txt_Italic(OFF) ;
-  Display.txt_Opacity(TRANSPARENT) ;
-  Display.txt_Set(TEXT_COLOUR, LIME) ;
-  Display.txt_Underline(ON) ;
-  Display.txt_Bold(OFF) ;
+  Display.txt_Inverse(Diablo::Off) ;
+  Display.txt_Italic(Diablo::Off) ;
+  Display.txt_Opacity(Diablo::Text::Transparent) ;
+  Display.txt_Set(Diablo::Text::Colour, Diablo::Colors::Lime) ;
+  Display.txt_Underline(Diablo::On) ;
+  Display.txt_Bold(Diablo::Off) ;
   Display.txt_Wrap(88) ;
   Display.putstr("Hello There") ;
   Display.txt_Height(1) ;
@@ -432,9 +436,9 @@ void text_Tests(void)
   HWLOGGING.print(Display.charheight('w')) ;
   HWLOGGING.print(F(" Width= ")) ;
   HWLOGGING.println(Display.charwidth('w')) ;
-  Display.txt_BGcolour(BLACK) ;
-  Display.txt_FGcolour(LIME) ;
-  Display.txt_FontID(FONT3) ;
+  Display.txt_BGcolour(Diablo::Colors::Black) ;
+  Display.txt_FGcolour(Diablo::Colors::Lime) ;
+  Display.txt_FontID(Diablo::Font::Font3) ;
   Display.txt_MoveCursor(0,0) ;      // reset
 }
 
@@ -608,16 +612,16 @@ void IMG_Tests(void)
   Display.img_SetPosition(handle, 0, 0, 50) ; // move to a different position
   Display.img_Show(handle, 0) ;
   
-  j = Display.img_GetWord(handle, 0, IMAGE_FRAMES) ;
+  j = Display.img_GetWord(handle, 0, Diablo::Image::Frames) ;
   for (i = 0; i < j; i++)
   {
-    Display.img_SetWord(handle, 0, IMAGE_INDEX, i) ;
+    Display.img_SetWord(handle, 0, Diablo::Image::Index, i) ;
     Display.img_Show(handle, 0) ;
     delay(500) ;
   }
   
   delay(500) ;
-  Display.img_Disable(handle, ALL) ;
+  Display.img_Disable(handle, Diablo::All) ;
   j = 0 ;
   k = 30 ;
   for (i = 36; i <= 39; i++)
@@ -633,19 +637,19 @@ void IMG_Tests(void)
     Display.img_Enable(handle, i) ;
   }
   Display.gfx_Cls() ;
-  Display.img_Show(handle,ALL) ;
+  Display.img_Show(handle,Diablo::All) ;
   //  img_ClearAttributes(handle, index, value) ;
   //  img_SetAttributes(handle, index, value) ;
   if (ftouchtests)
   {
-    Display.touch_Set(TOUCH_ENABLE) ;
+    Display.touch_Set(Diablo::Touch::Enable) ;
     Display.putstr("Please Touch an Image\n") ;
     i = -1 ;
     do
     {
-      j = Display.touch_Get(TOUCH_STATUS) ;
-      if (j == TOUCH_PRESSED)
-      i = Display.img_Touched(handle, ALL) ;
+      j = Display.touch_Get(Diablo::Touch::Status) ;
+      if (j == Diablo::Touch::Pressed)
+      i = Display.img_Touched(handle, Diablo::All) ;
     } while (i == -1) ;
     Display.putstr("You touched Image Index ") ;
     itoa(i,wk,10) ;
@@ -783,39 +787,39 @@ void Touch_Tests(void)
   HWLOGGING.println(F("Touch Tests.")) ;
   Display.putstr("Please ensure Touch is only\ndetected in the Blue area") ;
   HWLOGGING.println(F("Detecting touch in Region")) ;
-  Display.touch_Set(TOUCH_ENABLE) ;
+  Display.touch_Set(Diablo::Touch::Enable) ;
   Display.touch_DetectRegion(100,100, 200, 200) ;
-  Display.gfx_RectangleFilled(100,100, 200, 200, BLUE) ;
-  do {} while (Display.touch_Get(TOUCH_STATUS) != TOUCH_PRESSED);
-  Display.touch_Set(TOUCH_REGIONDEFAULT) ;
+  Display.gfx_RectangleFilled(100,100, 200, 200, Diablo::Colors::Blue) ;
+  do {} while (Display.touch_Get(Diablo::Touch::Status) != Diablo::Touch::Pressed);
+  Display.touch_Set(Diablo::Touch::RegionDefault) ;
   Display.gfx_Cls() ;
   Display.putstr("Draw.. Drawing stops\nwhen touch released\n") ;
   HWLOGGING.println(F("Drawing")) ;
   
-  while(Display.touch_Get(TOUCH_STATUS) != TOUCH_PRESSED)
+  while(Display.touch_Get(Diablo::Touch::Status) != Diablo::Touch::Pressed)
   {      // we"ll wait for a touch
   }
-  firstx = Display.touch_Get(TOUCH_GETX);                          // so we can get the first point
-  firsty = Display.touch_Get(TOUCH_GETY);
-  while(state != TOUCH_RELEASED)
+  firstx = Display.touch_Get(Diablo::Touch::GetX);                          // so we can get the first point
+  firsty = Display.touch_Get(Diablo::Touch::GetY);
+  while(state != Diablo::Touch::Released)
   {
-    state = Display.touch_Get(TOUCH_STATUS);                       // look for any touch activity
-    x = Display.touch_Get(TOUCH_GETX);                             // grab the x
-    y = Display.touch_Get(TOUCH_GETY);                             // and the y coordinates of the touch
-    if (state == TOUCH_PRESSED)                               // if there"s a press
+    state = Display.touch_Get(Diablo::Touch::Status);                       // look for any touch activity
+    x = Display.touch_Get(Diablo::Touch::GetX);                             // grab the x
+    y = Display.touch_Get(Diablo::Touch::GetY);                             // and the y coordinates of the touch
+    if (state == Diablo::Touch::Pressed)                               // if there"s a press
     {
       firstx = x;
       firsty = y;
     }
-    if (state == TOUCH_MOVING)                                // if there"s movement
+    if (state == Diablo::Touch::Moving)                                // if there"s movement
     {
-      Display.gfx_Line(firstx, firsty, x, y, BLUE);                 // but lines are much better
+      Display.gfx_Line(firstx, firsty, x, y, Diablo::Colors::Blue);                 // but lines are much better
       firstx = x;
       firsty = y;
     }
   }
   Display.putstr("Done!\n") ;
-  Display.touch_Set(TOUCH_DISABLE) ;
+  Display.touch_Set(Diablo::Touch::Disable) ;
 }
 
 int freeRam () {
@@ -830,7 +834,7 @@ void mycallback(int ErrCode, unsigned char Errorbyte)
   const char *Error4DText[] = {"OK\0", "Timeout\0", "NAK\0", "Length\0", "Invalid\0"} ;
   HWLOGGING.print(F("Serial 4D Library reports error ")) ;
   HWLOGGING.print(Error4DText[ErrCode]) ;
-  if (ErrCode == Err4D_NAK)
+  if (ErrCode == Diablo::Err4D::Nak)
   {
     HWLOGGING.print(F(" returned data= ")) ;
     HWLOGGING.println(Errorbyte) ;
@@ -1023,9 +1027,9 @@ void loop()
     delay(5000) ;
   }
 
-  Display.setbaudWait(BAUD_19200);
+  Display.setbaudWait(Diablo::Baud::Bps19200);
   Display.putstr("Hello at 19200\n");
-  Display.setbaudWait(BAUD_9600);
+  Display.setbaudWait(Diablo::Baud::Bps9600);
   Display.putstr("Back to 9600\n");
   delay(5000) ;
 #endif 
